@@ -1,6 +1,6 @@
 # 🌍 Country Explorer
 
-![Preview do projeto](assets/preview.png)
+![Preview do projeto](assets/preview-v2.png)
 
 Uma aplicação Angular para explorar países do mundo utilizando dados reais da API pública **REST Countries**.
 
