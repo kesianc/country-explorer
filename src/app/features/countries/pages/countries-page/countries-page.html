@@ -1,0 +1,127 @@
+<section class="hero">
+  <div class="hero__glow" aria-hidden="true"></div>
+  <div class="hero__inner">
+    <div class="hero__globe">
+      <iframe
+        src="https://my.spline.design/helloworld-WK77XT1ikxjWiFF5nBwsx9Dm/"
+        title="Experiência 3D interativa"
+        loading="lazy"
+        allowfullscreen
+      ></iframe>
+    </div>
+
+    <div class="hero__map-panel">
+      <svg class="hero__map" [attr.viewBox]="worldMap.viewBox" role="img" aria-label="Mapa mundi interativo">
+        <defs>
+          <linearGradient id="heroOcean" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#0f1f4c" />
+            <stop offset="100%" stop-color="#081331" />
+          </linearGradient>
+        </defs>
+
+        <rect class="ocean" x="0" y="0" width="1010" height="666" />
+        @for (location of worldLocations; track location.id) {
+          <path
+            class="country-shape"
+            [class.country-shape--active]="isMapCountrySelected(location.name)"
+            [attr.d]="location.path"
+            [attr.aria-label]="location.name"
+            (mouseenter)="onMapCountryHover(location.name)"
+            (mouseleave)="onMapCountryHover(null)"
+            (click)="onMapCountryClick(location.name)"
+          />
+        }
+      </svg>
+    </div>
+  </div>
+</section>
+
+<div class="filters-area">
+  <div class="filters__summary-wrap">
+    <div class="hero__summary hero__summary--detached">
+      <span class="hero__badge-label">Países disponíveis</span>
+      <span class="hero__badge-value">{{ resultSummary() }}</span>
+    </div>
+  </div>
+
+  <section class="filters">
+    <label class="field">
+      <span>Buscar por nome</span>
+      <input
+        type="search"
+        [ngModel]="searchTerm()"
+        (ngModelChange)="searchTerm.set($event)"
+        placeholder="Ex.: Brazil, Japan, South Africa"
+      />
+    </label>
+
+    <label class="field">
+      <span>Filtrar por região</span>
+      <select [ngModel]="selectedRegion()" (ngModelChange)="selectedRegion.set($event)">
+        @for (region of regions; track region.value) {
+          <option [value]="region.value">{{ region.label }}</option>
+        }
+      </select>
+    </label>
+
+    <label class="field">
+      <span>Ordenar por</span>
+      <select [ngModel]="sortBy()" (ngModelChange)="sortBy.set($event)">
+        @for (option of sortOptions; track option.value) {
+          <option [value]="option.value">{{ option.label }}</option>
+        }
+      </select>
+    </label>
+
+    <button class="ghost-button" type="button" (click)="resetFilters()" [disabled]="!hasActiveFilters()">
+      Limpar filtros
+    </button>
+  </section>
+</div>
+
+@if (selectedMapCountryNameValue(); as selectedMapName) {
+  <section class="country-modal-backdrop" (click)="clearMapSelection()">
+    <div class="country-modal-wrapper" (click)="$event.stopPropagation()">
+      <button class="country-modal__close" type="button" (click)="clearMapSelection()" aria-label="Fechar">X</button>
+      @if (selectedMapCountry(); as country) {
+        <article class="country-modal" role="dialog" aria-modal="true">
+          <h2>{{ country.name }}</h2>
+          <p><strong>Região:</strong> {{ country.region }}</p>
+          <p><strong>Capital:</strong> {{ country.capital || 'Sem capital registrada' }}</p>
+          <p><strong>População:</strong> {{ formatNumber(country.population) }}</p>
+          <p><strong>Área:</strong> {{ formatNumber(country.area) }} km²</p>
+        </article>
+      } @else {
+        <article class="country-modal" role="dialog" aria-modal="true">
+          <h2>{{ selectedMapName }}</h2>
+          <p>Este país foi selecionado no mapa detalhado.</p>
+          <p>Os dados desta região não foram encontrados no formato atual da API.</p>
+        </article>
+      }
+    </div>
+  </section>
+}
+
+@if (state().loading) {
+  <section class="feedback-card">
+    <h2>Carregando países...</h2>
+    <p>Consultando a API pública para montar a lista inicial.</p>
+  </section>
+} @else if (state().error) {
+  <section class="feedback-card feedback-card--error">
+    <h2>Falha ao carregar os países</h2>
+    <p>{{ state().error }}</p>
+    <button class="primary-button" type="button" (click)="retry()">Tentar novamente</button>
+  </section>
+} @else if (!filteredCountries().length) {
+  <section class="feedback-card">
+    <h2>Nenhum país encontrado</h2>
+    <p>Ajuste o termo da busca ou troque os filtros para ampliar os resultados.</p>
+  </section>
+} @else {
+  <section class="countries-grid">
+    @for (country of filteredCountries(); track trackByCode($index, country)) {
+      <app-country-card [country]="country" />
+    }
+  </section>
+}

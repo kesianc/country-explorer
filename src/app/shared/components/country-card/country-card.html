@@ -1,0 +1,28 @@
+<article class="country-card">
+  <a class="country-card__link" [routerLink]="['/country', country().code]">
+    <img class="country-card__flag" [src]="country().flagUrl" [alt]="country().flagAlt" loading="lazy" />
+
+    <div class="country-card__content">
+      <div>
+        <p class="country-card__region">{{ country().region }}</p>
+        <h2 class="country-card__name">{{ country().name }}</h2>
+        <p class="country-card__official">{{ country().officialName }}</p>
+      </div>
+
+      <dl class="country-card__stats">
+        <div>
+          <dt>Capital</dt>
+          <dd>{{ country().capital }}</dd>
+        </div>
+        <div>
+          <dt>População</dt>
+          <dd>{{ country().population | number }}</dd>
+        </div>
+        <div>
+          <dt>Área</dt>
+          <dd>{{ country().area | number }} km2</dd>
+        </div>
+      </dl>
+    </div>
+  </a>
+</article>

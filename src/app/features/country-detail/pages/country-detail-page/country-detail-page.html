@@ -1,0 +1,106 @@
+<a class="back-link" routerLink="/">Voltar para a lista</a>
+
+@if (state().loading) {
+  <section class="detail-card detail-card--centered">
+    <h1>Carregando detalhes...</h1>
+    <p>Buscando informações completas do país selecionado.</p>
+  </section>
+} @else if (state().error) {
+  <section class="detail-card detail-card--centered">
+    <h1>Falha ao carregar o país</h1>
+    <p>{{ state().error }}</p>
+  </section>
+} @else if (state().country; as country) {
+  <section class="detail-card detail-card--hero">
+    <img class="detail-card__flag" [src]="country.flagUrl" [alt]="country.flagAlt" />
+
+    <div class="detail-card__headline">
+      <p class="eyebrow">{{ country.region }} / {{ country.subregion }}</p>
+      <h1>{{ country.name }}</h1>
+      <p class="detail-card__official">{{ country.officialName }}</p>
+
+      <div class="detail-card__actions">
+        @if (country.mapsUrl) {
+          <a class="primary-link" [href]="country.mapsUrl" target="_blank" rel="noreferrer">
+            Ver no Google Maps
+          </a>
+        }
+        <span class="info-pill">Código {{ country.code }}</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="detail-layout">
+    <article class="detail-card">
+      <h2>Informações gerais</h2>
+
+      <dl class="info-grid">
+        <div>
+          <dt>Nome nativo</dt>
+          <dd>{{ country.nativeName }}</dd>
+        </div>
+        <div>
+          <dt>Capital</dt>
+          <dd>{{ country.capital }}</dd>
+        </div>
+        <div>
+          <dt>População</dt>
+          <dd>{{ country.population | number }}</dd>
+        </div>
+        <div>
+          <dt>Área</dt>
+          <dd>{{ country.area | number }} km2</dd>
+        </div>
+        <div>
+          <dt>Continentes</dt>
+          <dd>{{ country.continents.join(', ') || 'Não informado' }}</dd>
+        </div>
+        <div>
+          <dt>Fuso horário</dt>
+          <dd>{{ country.timezones.join(', ') || 'Não informado' }}</dd>
+        </div>
+        <div>
+          <dt>Início da semana</dt>
+          <dd>{{ country.startOfWeek }}</dd>
+        </div>
+        <div>
+          <dt>Domínio</dt>
+          <dd>{{ country.topLevelDomain.join(', ') || 'Não informado' }}</dd>
+        </div>
+      </dl>
+    </article>
+
+    <article class="detail-card">
+      <h2>Idiomas e moedas</h2>
+
+      <div class="stack-list">
+        <section>
+          <h3>Idiomas</h3>
+          <p>{{ country.languages.join(', ') || 'Não informado' }}</p>
+        </section>
+
+        <section>
+          <h3>Moedas</h3>
+          <p>{{ country.currencies.join(', ') || 'Não informado' }}</p>
+        </section>
+      </div>
+    </article>
+  </section>
+
+  <section class="detail-card">
+    <h2>Países fronteiriços</h2>
+
+    @if (state().borderCountries.length) {
+      <div class="border-grid">
+        @for (borderCountry of state().borderCountries; track borderCountry.code) {
+          <a class="border-chip" [routerLink]="['/country', borderCountry.code]">
+            <img [src]="borderCountry.flagUrl" [alt]="borderCountry.flagAlt" />
+            <span>{{ borderCountry.name }}</span>
+          </a>
+        }
+      </div>
+    } @else {
+      <p class="muted-text">Este país não possui fronteiras terrestres registradas na API.</p>
+    }
+  </section>
+}

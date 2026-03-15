@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 620" role="img" aria-labelledby="mapTitle mapDesc">
+  <title id="mapTitle">Mapa mundi interativo</title>
+  <desc id="mapDesc">Mapa decorativo com marcadores clicaveis de paises.</desc>
+
+  <defs>
+    <linearGradient id="ocean" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f8fbff"/>
+      <stop offset="100%" stop-color="#edf4ff"/>
+    </linearGradient>
+    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#1d4ed8" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+
+  <style>
+    .ocean {
+      fill: url(#ocean);
+    }
+
+    .land {
+      fill: #cfdceb;
+      stroke: #9fb3c8;
+      stroke-width: 2;
+      opacity: 0.48;
+    }
+
+    .country-point {
+      fill: #2563eb;
+      stroke: #ffffff;
+      stroke-width: 2;
+      cursor: pointer;
+      transition: transform 0.2s ease, fill 0.2s ease, opacity 0.2s ease;
+      transform-box: fill-box;
+      transform-origin: center;
+      filter: url(#softShadow);
+      opacity: 0.92;
+    }
+
+    .country-point:hover {
+      fill: #1d4ed8;
+      transform: scale(1.24);
+      opacity: 1;
+    }
+  </style>
+
+  <rect class="ocean" x="0" y="0" width="1200" height="620" rx="16" />
+
+  <!-- Continentes simplificados para visual de atlas -->
+  <path
+    class="land"
+    d="M112 178 C160 130, 262 120, 340 160 C374 178, 398 216, 390 248 C380 286, 330 322, 300 360 C280 384, 286 420, 306 450 C328 484, 306 528, 264 546 C202 572, 132 532, 108 468 C84 402, 52 344, 64 276 C72 234, 86 204, 112 178Z"
+  />
+  <path
+    class="land"
+    d="M456 156 C498 132, 558 134, 596 162 C610 172, 622 196, 612 212 C600 232, 564 238, 536 242 C502 246, 476 262, 458 292 C442 318, 414 320, 396 300 C372 274, 378 234, 398 206 C414 184, 434 170, 456 156Z"
+  />
+  <path
+    class="land"
+    d="M500 262 C538 242, 590 250, 628 278 C660 300, 680 334, 678 372 C676 412, 648 444, 616 470 C586 494, 546 506, 518 486 C486 462, 474 428, 462 392 C446 344, 454 286, 500 262Z"
+  />
+  <path
+    class="land"
+    d="M660 142 C726 110, 844 104, 926 130 C994 152, 1058 196, 1090 246 C1114 284, 1118 334, 1088 364 C1052 400, 978 400, 928 394 C878 388, 832 400, 786 422 C736 446, 676 442, 650 404 C628 372, 640 328, 664 298 C692 262, 736 248, 778 238 C836 224, 878 196, 870 166 C864 144, 804 142, 760 152 C724 162, 690 162, 660 142Z"
+  />
+  <path
+    class="land"
+    d="M928 420 C966 400, 1022 404, 1060 430 C1092 452, 1116 488, 1108 522 C1100 556, 1058 574, 1020 572 C978 570, 940 550, 914 520 C892 494, 894 440, 928 420Z"
+  />
+
+  <!-- Marcadores de paises clicaveis -->
+  <g>
+    <circle class="country-point" data-country="Canada" cx="246" cy="166" r="8" />
+    <circle class="country-point" data-country="United States" cx="252" cy="224" r="8" />
+    <circle class="country-point" data-country="Mexico" cx="224" cy="278" r="7" />
+    <circle class="country-point" data-country="Brazil" cx="306" cy="364" r="9" />
+    <circle class="country-point" data-country="Argentina" cx="290" cy="462" r="8" />
+    <circle class="country-point" data-country="United Kingdom" cx="500" cy="182" r="7" />
+    <circle class="country-point" data-country="Spain" cx="526" cy="214" r="7" />
+    <circle class="country-point" data-country="Nigeria" cx="560" cy="334" r="8" />
+    <circle class="country-point" data-country="South Africa" cx="576" cy="442" r="8" />
+    <circle class="country-point" data-country="India" cx="794" cy="276" r="8" />
+    <circle class="country-point" data-country="China" cx="842" cy="242" r="9" />
+    <circle class="country-point" data-country="Japan" cx="920" cy="244" r="7" />
+    <circle class="country-point" data-country="Australia" cx="1028" cy="488" r="9" />
+  </g>
+</svg>
